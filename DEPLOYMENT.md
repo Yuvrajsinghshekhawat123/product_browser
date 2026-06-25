@@ -36,7 +36,7 @@ Open your terminal (PowerShell, Git Bash, or Linux Terminal) on your local machi
 chmod 400 product-browser-key.pem
 
 # SSH into the server
-ssh -i "product-browser-key.pem" ubuntu@<YOUR-EC2-PUBLIC-IP>
+ssh -i "product-browser-key.pem" ubuntu@54.91.28.36
 ```
 *(Replace `<YOUR-EC2-PUBLIC-IP>` with the public IPv4 address shown in your AWS EC2 Console).*
 
@@ -71,7 +71,7 @@ exit
 ```
 Reconnect to EC2:
 ```bash
-ssh -i "product-browser-key.pem" ubuntu@<YOUR-EC2-PUBLIC-IP>
+ssh -i "product-browser-key.pem" ubuntu@54.91.28.36
 ```
 
 ### 3. Clone Repository and Setup Env Files
@@ -126,4 +126,4 @@ Once the containers are running, execute the seeding script to populate the 200,
 docker exec -it product_browser_backend npm run seed
 ```
 
-You are all set! Pushing any updates to the `main` branch on GitHub will now automatically trigger GitHub Actions to deploy to your EC2 server. You can visit `http://<YOUR-EC2-PUBLIC-IP>` to see your live product browser!
+You are all set! Pushing any updates to the `main` branch on GitHub will now automatically trigger GitHub Actions to deploy to your EC2 server. You can visit `http://54.91.28.36` to see your live product browser!

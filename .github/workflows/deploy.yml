@@ -26,9 +26,12 @@ jobs:
             # 2. Pull the latest commits from Github
             git pull origin main
 
+
+            # Keep the small EC2 disk from filling with old Docker layers.
+            sudo docker compose down --remove-orphans 
+            sudo docker builder prune -a -f
+            sudo docker system prune -a -f
+
             # 3. Rebuild and restart the containers
             docker-compose down
             docker-compose up --build -d
-
-            # 4. Clean up unused Docker resources to save disk space
-            docker image prune -f

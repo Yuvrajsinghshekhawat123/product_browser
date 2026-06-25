@@ -20,7 +20,7 @@ const insertTestProduct = async () => {
 
     // Create a new product instance
     const testProduct = new Product({
-      name: `★ INTERVIEW TEST PRODUCT ★ (${new Date().toLocaleTimeString()})`,
+      name: `## INTERVIEW TEST PRODUCT ## (${new Date().toLocaleTimeString()})`,
       category: 'Books',
       price: 99.99
     });

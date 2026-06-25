@@ -5,31 +5,32 @@ services:
     build:
       context: ./Server
       dockerfile: Dockerfile
-    container_name: product_browser_backend
-    ports:
-      - "5000:5000"
+    container_name: product-browser-backend
+    restart: unless-stopped
     env_file:
       - ./Server/.env
     environment:
-      - NODE_ENV=production
+      NODE_ENV: production
+      PORT: 5000
+    ports:
+      - "5000:5000"
     networks:
       - product_browser_net
-    restart: always
 
   frontend:
     build:
       context: ./Frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=/api
-    container_name: product_browser_frontend
-    ports:
-      - "80:80"
+        VITE_API_URL: /api
+    container_name: product-browser-frontend
+    restart: unless-stopped
     depends_on:
       - backend
+    ports:
+      - "80:80"
     networks:
       - product_browser_net
-    restart: always
 
 networks:
   product_browser_net:

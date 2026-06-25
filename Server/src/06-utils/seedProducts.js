@@ -39,7 +39,6 @@ const seedDatabase = async () => {
 
       if (currentBatch.length === BATCH_SIZE) {
         await Product.insertMany(currentBatch, { ordered: false });
-        console.log(`Progress: Seeded ${i} / ${SEED_COUNT} products (${((i / SEED_COUNT) * 100).toFixed(1)}%)`);
         currentBatch = [];
       }
     }
