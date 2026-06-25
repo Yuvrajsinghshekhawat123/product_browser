@@ -3,7 +3,7 @@ name: CD - Deploy to AWS EC2
 on:
   push:
     branches:
-      - main # Triggers the workflow only when code is pushed to the main branch
+      - main
 
 jobs:
   deploy:
@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Login to EC2 via SSH and deploy
       - name: SSH into EC2 and update containers
         uses: appleboy/ssh-action@master
         with:
@@ -20,18 +19,21 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # 1. Navigate to the project folder
+            # Go to project directory
             cd ~/product_browser
 
-            # 2. Pull the latest commits from Github
+            # Pull latest code
             git pull origin main
 
+            # Stop existing containers
+            sudo docker compose down --remove-orphans
 
-            # Keep the small EC2 disk from filling with old Docker layers.
-            sudo docker compose down --remove-orphans 
+            # Clean unused Docker resources
             sudo docker builder prune -a -f
             sudo docker system prune -a -f
 
-            # 3. Rebuild and restart the containers
-            docker-compose down
-            docker-compose up --build -d
+            # Build and start containers
+            sudo docker compose up --build -d
+
+            # Show running containers
+            sudo docker compose ps
