@@ -21,7 +21,7 @@ jobs:
           port: 22
           script: |
             # 1. Navigate to the project folder
-            cd ~/product-browser
+            cd ~/product_browser
 
             # 2. Pull the latest commits from Github
             git pull origin main
