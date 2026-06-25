@@ -20,8 +20,7 @@ const MainLayout = ({ children }) => {
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p>© {new Date().getFullYear()} Product Browser. Built with MERN Stack + Docker.</p>
           <p class="font-mono text-[10px] text-brand-600">
-            Cursor pagination: [updatedAt, _id] desc. Indexes applied. fkjlajdf kjkjdkf 
-            kafjkja 
+            Cursor pagination: [updatedAt, _id] desc. Indexes applied.
           </p>
         </div>
       </footer>
