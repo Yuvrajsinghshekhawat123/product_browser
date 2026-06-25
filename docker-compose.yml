@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    container_name: product_browser_backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./Server/.env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - product_browser_net
+    restart: always
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=/api
+    container_name: product_browser_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - product_browser_net
+    restart: always
+
+networks:
+  product_browser_net:
+    driver: bridge

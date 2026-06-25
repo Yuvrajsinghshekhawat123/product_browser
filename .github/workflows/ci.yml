@@ -1,0 +1,55 @@
+name: CI - Integration Checks
+
+on:
+  push:
+    branches:
+      - '**' # Run on push to any branch
+  pull_request:
+    branches:
+      - main # Run on pull requests targeting main
+
+jobs:
+  test-backend:
+    name: Backend Build & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: Server/package-lock.json
+
+      - name: Install Backend Dependencies
+        run: |
+          cd Server
+          npm install
+
+  test-frontend:
+    name: Frontend Build & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: Frontend/package-lock.json
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd Frontend
+          npm install
+
+      - name: Build Frontend for Production
+        run: |
+          cd Frontend
+          npm run build
