@@ -1,37 +1,46 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchProducts } from '../api/productsApi.js';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { fetchProducts } from "../api/productsApi";
 
+// Function to fetch one page of products
+async function getProducts({ pageParam, category, limit }) {
+  const response = await fetchProducts({
+    limit,
+    category,
+    cursorUpdatedAt: pageParam ? pageParam.updatedAt : undefined,
+    cursorId: pageParam ? pageParam.id : undefined,
+  });
 
+  return response;
+}
 
+// Function to decide the next cursor
+function getNextCursor(lastPage) {
+  if (lastPage.hasMore) {
+    return lastPage.nextCursor;
+  }
 
-/**
- * React Query hook to manage infinite scroll pagination for products.
- * Automatically handles cursor propagation and resets on category change.
- */
-export const useProducts = ({ category, limit = 20 }) => {
-  return useInfiniteQuery({
-    queryKey: ['products', { category, limit }],
-    queryFn: async ({ pageParam }) => {
-      // pageParam is the cursor returned by getNextPageParam, structure: { updatedAt, id }
-      const cursorUpdatedAt = pageParam ? pageParam.updatedAt : undefined;
-      const cursorId = pageParam ? pageParam.id : undefined;
+  return undefined;
+}
 
-      return fetchProducts({
-        limit,
+// Custom Hook
+export function useProducts({ category, limit = 20 }) {
+  const query = useInfiniteQuery({
+    queryKey: ["products", category],
+
+    queryFn: ({ pageParam }) => { // You are NOT passing pageParam. React Query passes it automatically.
+      return getProducts({
+        pageParam,
         category,
-        cursorUpdatedAt,
-        cursorId,
+        limit,
       });
     },
+
     initialPageParam: null,
+
     getNextPageParam: (lastPage) => {
-      // Check if backend reports there is more data and provides a valid cursor
-      if (lastPage.hasMore && lastPage.nextCursor) {
-        return lastPage.nextCursor; // Returned object will be passed as pageParam in next fetch
-      }
-      return undefined; // Stop infinite queries
+      return getNextCursor(lastPage);
     },
-    // Keep previous data when changing category filters to avoid flickering UI
-    placeholderData: (previousData) => previousData,
   });
-};
+
+  return query;
+}
