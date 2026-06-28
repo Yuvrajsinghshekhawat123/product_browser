@@ -72,7 +72,7 @@ const Home = () => {
         <div class="relative z-10 max-w-2xl">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-accent-500/10 text-accent-500 border border-accent-500/20 mb-4">
             <span class="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse"></span>
-            Performance Tested:  
+            Performance Tested: 200,000 Products
           </span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
             Seamless Cursor Pagination
