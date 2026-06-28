@@ -1,6 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../api/productsApi.js';
 
+
+
+
 /**
  * React Query hook to manage infinite scroll pagination for products.
  * Automatically handles cursor propagation and resets on category change.
